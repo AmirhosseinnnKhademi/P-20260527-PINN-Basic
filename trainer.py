@@ -20,8 +20,9 @@ def loss_fn(model, x_f, t_f, x_ic, t_ic, u_ic, x_bc, t_bc, u_bc, nu):
     l_bc = tf.reduce_mean(tf.square(model(tf.concat([x_bc, t_bc], axis=1)) - u_bc))
     return l_f + 10* l_ic + 10* l_bc
 
-def train(model, data, nu, lr, epochs):
-    
+@tf.function
+def train_step(model, data, nu, lr, epochs):
+
     (x_f, t_f), (x_ic, t_ic, u_ic), (x_bc, t_bc, u_bc) = data
     optimizer = tf.keras.optimizers.Adam(lr)
     history = []
