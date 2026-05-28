@@ -1,6 +1,6 @@
 # decision on using GPU or CPU
 import os
-use_gpu = False # set True if GPU is available
+use_gpu = True # set True if GPU is available
 if not use_gpu:
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
