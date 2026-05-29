@@ -20,8 +20,8 @@ class SpectralConv1D(tf.keras.layers.Layer):
         self.n_modes = n_modes
         scale = 1.0 / width
         init = tf.keras.initializers.RandomUniform(-scale, scale)
-        self.wr = self.add_weight("wr", shape=(width, width, n_modes), initializer=init)
-        self.wi = self.add_weight("wi", shape=(width, width, n_modes), initializer=init)
+        self.wr = self.add_weight(name="wr", shape=(width, width, n_modes), initializer=init)
+        self.wi = self.add_weight(name="wi", shape=(width, width, n_modes), initializer=init)
 
     def call(self, x):
         # x: (batch, Nx, width)
