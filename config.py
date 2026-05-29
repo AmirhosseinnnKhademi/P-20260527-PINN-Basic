@@ -10,5 +10,5 @@ nu      = 0.01 / np.pi
 N_f     = 10000
 N_bc    = 100
 N_ic    = 200
-Epochs = 5000
-LAYERS  = [2, 20, 20, 20, 1]
+Epochs = 20000
+LAYERS  = [2, 40, 40, 40, 40, 1]
