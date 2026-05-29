@@ -59,6 +59,12 @@ def generate_reference(nu_val, nx=256, nt=201):
     sol = solve_ivp(rhs, [0, 1], u0_fine, method='Radau',
                     t_eval=t_eval, rtol=1e-8, atol=1e-10)
 
+    n_out = sol.y.shape[1]
+    if n_out < nt:
+        # Solver stopped early (shock / extreme stiffness); trim to computed range
+        t_eval = sol.t
+        nt = n_out
+
     x_out = np.linspace(-1, 1, nx)
     u_ref = np.zeros((nt, nx), dtype=np.float32)
     for i in range(nt):
