@@ -20,19 +20,15 @@ def loss_fn(model, x_f, t_f, x_ic, t_ic, u_ic, x_bc, t_bc, u_bc, nu):
     l_bc = tf.reduce_mean(tf.square(model(tf.concat([x_bc, t_bc], axis=1)) - u_bc))
     return l_f + 10* l_ic + 10* l_bc
 
+def get_grad(model, x_f, t_f, x_ic, t_ic, u_ic, x_bc, t_bc, u_bc, nu):
+    with tf.GradientTape() as tape:
+        loss = loss_fn(model, x_f, t_f, x_ic, t_ic, u_ic, x_bc, t_bc, u_bc, nu)
+    grad = tape.gradient(loss, model.trainable_variables)
+    return loss, grad
+
 @tf.function
-def train_step(model, data, nu, lr, epochs):
-
+def train_step(model, data, nu, optim):
     (x_f, t_f), (x_ic, t_ic, u_ic), (x_bc, t_bc, u_bc) = data
-    optimizer = tf.keras.optimizers.Adam(lr)
-    history = []
-
-    for epoch in range(1, epochs+1):
-        with tf.GradientTape() as tape:
-            loss = loss_fn(model, x_f, t_f, x_ic, t_ic, u_ic, x_bc, t_bc, u_bc, nu)
-        grads = tape.gradient(loss, model.trainable_variables)
-        optimizer.apply_gradients(zip(grads, model.trainable_variables))
-        history.append(float(loss))
-        if epoch % 500 ==0:
-            print(f"Epoch: {epoch:5d}, Loss: {float(loss):.4e}")
-    return history
+    loss, grad = get_grad(model, x_f, t_f, x_ic, t_ic, u_ic, x_bc, t_bc, u_bc, nu)
+    optim.apply_gradients(zip(grad, model.trainable_variables))
+    return loss
