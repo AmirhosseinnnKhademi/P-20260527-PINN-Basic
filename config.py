@@ -11,7 +11,7 @@ nu_range = [1.0 / np.pi, 0.1 / np.pi, 0.01 / np.pi, 0.001 / np.pi, 0.0001 / np.p
 N_f     = 8000
 N_bc    = 100
 N_ic    = 200
-Epochs = 15000
+Epochs = 101
 LAYERS      = [2, 20, 20, 20, 20, 1]
 LAYERS_PINO = [3] + LAYERS[1:]   # (x, t, log10(nu)) → same hidden layers → u
 
