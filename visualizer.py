@@ -17,7 +17,7 @@ def plot_solution(model):
     t_flat = T.flatten().reshape(-1,1)
     u_pred = model(tf.concat([x_flat, t_flat], axis=1)).numpy().reshape(100, 256)
 
-    plt.pcolormesh(t_plot, x_plot, u_pred, cmap="RdBu_r", shading='auto')
+    plt.pcolormesh(t_plot, x_plot, u_pred.T, cmap="RdBu_r", shading='auto')
     plt.colorbar(label='u(x, t)')
     plt.ylabel('x'); plt.xlabel('t')
     plt.title('Burgers PINN Solution')
